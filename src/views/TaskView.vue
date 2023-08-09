@@ -4,8 +4,10 @@
   import { onMounted, ref } from 'vue';
   import TaskColumn from '@/components/common/Task/TaskColumn.vue';
   import BaseInput from '@/components/base/BaseInput.vue';
+  import { useUserState } from '@/stores/user';
 
   const taskState = useTaskState()
+  const userState = useUserState()
 
   onMounted(() => {
     taskState.getTasksFromSource()
@@ -39,6 +41,13 @@
     event.preventDefault()
   }
 
+  const logout = event => {
+
+    userState.logout()
+
+    event.preventDefault()
+  }
+
 </script>
 
 <template>
@@ -49,7 +58,7 @@
           <BaseInput :required="false" :disabled="taskState.loading" placeholder="Search.." v-model="search" class-name="px-3 py-1 rounded-md w-full" />
         </form>
         <div>
-          <button class='rounded-full p-2 bg-gray-700 text-white'>
+          <button class='rounded-full p-2 bg-gray-700 text-white' @click="logout">
             Logout
           </button>
         </div>
